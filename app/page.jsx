@@ -19,7 +19,7 @@ const Home = () => {
             </p>
             <div className="flex items-center gap-8 flex-col xl:flex-row">
               <a 
-                href="/assets/cv.pdf" 
+                href="assets/cv.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className=" flex items-center gap-2 justify-center whitespace-nowrap rounded-full  font-semibold ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 hover:bg-accent-hover border border-accent bg-transparent hover:text-primary bg-primary text-accent h-[56px] px-8 text-sm uppercase tracking-[2px]"
