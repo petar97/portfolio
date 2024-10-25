@@ -22,7 +22,7 @@ const Photo = () => {
           }}
           className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute bg-primary"
         >
-          <Image src="portfolio/assets/port-pic.png" priority quality={100} fill sizes="100%" alt="portfolio picture" className="object-contain rounded-full mix-blend-lighten" />
+          <Image src="assets/port-pic.png" priority quality={100} fill sizes="100%" alt="portfolio picture" className="object-contain rounded-full mix-blend-lighten" />
         </motion.div>
 
         {/* circle */}
