@@ -43,7 +43,7 @@ const projects = [
       { name: "Node.js" },
     ],
     image: "assets/work/delaygram.webp",
-    live: "",
+    live: "https://delaygram-rho.vercel.app/",
     github: "https://github.com/petar97/delaygram",
   },
   {
