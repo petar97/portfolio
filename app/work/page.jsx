@@ -91,13 +91,13 @@ const Work = () => {
         opacity: 1, 
         transition: {delay: 2.4, duration: 0.4, ease: "easeIn"},
       }}
-      className="min-h-[80vh] flex flex-col py-12 xl:px-0"
+      className="min-h-[80vh] flex flex-col pb-12 xl:px-0"
     >
       <div className="container mx-auto">
         <div className="flex flex-col xl:flex-row xl:gap-[30px]">
           <div className="w-full xl:w-[50%] flex flex-col xl:justify-between order-2 xl:order-none">
             <div className="flex flex-col gap-[30px] h-[50%]">
-              <div className="text-8xl leading-none font-extrabold text-transparent text-outline mt-6 xl:mt-0">
+              <div className="text-8xl leading-none font-extrabold text-transparent text-outline mt-[-90px] xl:mt-3">
                 {project.num}
               </div>
               <h2 className="text-[42px] font-bold leading-none text-white group-hover:text-accent transition-all duration-500 capitalize ">
@@ -119,8 +119,8 @@ const Work = () => {
               </ul>
             </div>
           </div>
-          <div className="w-full xl:w-[50%]">
-            <div className="flex items-center gap-4 justify-end mb-3">
+          <div className="w-full xl:w-[50%] flex flex-col">
+            <div className="flex items-center gap-4 justify-end my-3 order-2 xl:order-none">
               <Link href={project.live} target="_blank" className={project.live ? "block" : "hidden"}>
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
@@ -147,7 +147,7 @@ const Work = () => {
                 </TooltipProvider>
               </Link>
             </div>
-            <Swiper spaceBetween={30} slidesPerView={1} className="xl:h-[460px]" onSlideChange={handleSlideChange}>
+            <Swiper spaceBetween={30} slidesPerView={1} className="xl:h-[460px] order-1 xl:order-none w-full" onSlideChange={handleSlideChange}>
               {projects.map((project, index) => {
                 return <SwiperSlide key={index} className="w-full">
                   <div className="h-[460px] relative group flex justify-center items-center bg-pink-50/20">

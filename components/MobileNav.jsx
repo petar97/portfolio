@@ -12,10 +12,6 @@ const links = [
         path: "/",
     },
     {
-        name: "services",
-        path: "/services",
-    },
-    {
         name: "resume",
         path: "/resume",
     },
@@ -39,7 +35,7 @@ const MobileNav = () => {
                 <CiMenuFries className="text-[32px] text-accent" />
             </SheetTrigger>
             <SheetContent className="flex flex-col">
-                <div className="mt-32 mb-40 text-center text-2xl">
+                <div className="mt-20 mb-20 text-center text-2xl">
                     <Link href="/" onClick={() => setIsOpen(false)}>
                         <h1 className="text-4xl font-semibold">
                             Petar<span className="text-accent">.</span>
