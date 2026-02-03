@@ -7,9 +7,10 @@ import PageTransition from "@/components/PageTransition";
 import StairTransition from "@/components/StairTransition";
 
 const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  subsets: ["latin-ext"],
+  weight: ["400", "600"],
   variable: "--font-jetbrains-mono",
+  display: "swap",
 });
 
 export const metadata = {

@@ -4,7 +4,7 @@ import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {CiMenuFries} from 'react-icons/ci'
-import { useState } from "react";
+import { useState, memo, useMemo } from "react";
 
 const links = [
     {
@@ -25,9 +25,22 @@ const links = [
     },
 ];
 
-const MobileNav = () => {
+const MobileNav = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
+
+    const navLinks = useMemo(() => (
+        links.map((link) => (
+            <Link
+                key={link.path}
+                href={link.path}
+                className={`${link.path === pathname && "text-accent border-b-2 border-accent"} text-xl capitalize hover:text-accent transition-all`}
+                onClick={() => setIsOpen(false)}
+            >
+                {link.name}
+            </Link>
+        ))
+    ), [pathname]);
 
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -43,22 +56,13 @@ const MobileNav = () => {
                     </Link>
                 </div>
                 <nav className="flex flex-col gap-8 justify-center items-center">
-                    {links.map((link, index) => {
-                        return (
-                            <Link 
-                                key={index} 
-                                href={link.path} 
-                                className={`${link.path === pathname && "text-accent border-b-2 border-accent"} text-xl capitalize hover:text-accent transition-all`}
-                                onClick={() => setIsOpen(false)}
-                            >
-                                {link.name}
-                            </Link>
-                        )
-                    })}
+                    {navLinks}
                 </nav>
             </SheetContent>
         </Sheet>
     )
-}
+});
+
+MobileNav.displayName = 'MobileNav';
 
 export default MobileNav

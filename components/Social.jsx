@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { memo } from "react";
 
 const socials = [
   {
@@ -19,18 +20,20 @@ const socials = [
   },
 ];
 
-const Social = ({ containerStyles, iconStyles }) => {
+const Social = memo(({ containerStyles, iconStyles }) => {
   return (
     <div className={containerStyles}>
-      {socials.map((item, index) => {
+      {socials.map((item) => {
         return (
-          <Link href={item.url} key={index} className={iconStyles} target="_blank">
+          <Link href={item.url} key={item.name} className={iconStyles} target="_blank" rel="noopener noreferrer">
             {item.icon}
           </Link>
         )
       })}
     </div>
   )
-}
+});
+
+Social.displayName = 'Social';
 
 export default Social
