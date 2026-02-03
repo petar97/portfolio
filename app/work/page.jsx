@@ -12,6 +12,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import Link from "next/link";
 import Image from "next/image";
 import WorkSliderBtns from "@/components/WorkSliderBtns";
+import AnimatedSection from "@/components/AnimatedSection";
+import AnimatedItem from "@/components/AnimatedItem";
 
 const projects = [
   {
@@ -96,18 +98,18 @@ const Work = () => {
       <div className="container mx-auto">
         <div className="flex flex-col xl:flex-row xl:gap-[30px]">
           <div className="w-full xl:w-[50%] flex flex-col xl:justify-between order-2 xl:order-none">
-            <div className="flex flex-col gap-[30px] h-[50%]">
-              <div className="text-8xl leading-none font-extrabold text-transparent text-outline mt-[-90px] xl:mt-3 -z-10">
+            <AnimatedSection stagger={0.12} delay={2.5} className="flex flex-col gap-[30px] h-[50%]">
+              <AnimatedItem className="text-8xl leading-none font-extrabold text-transparent text-outline mt-[-90px] xl:mt-3 -z-10">
                 {project.num}
-              </div>
-              <h2 className="text-[42px] font-bold leading-none text-white group-hover:text-accent transition-all duration-500 capitalize ">
+              </AnimatedItem>
+              <AnimatedItem as="h2" className="text-[42px] font-bold leading-none text-white group-hover:text-accent transition-all duration-500 capitalize ">
                 {project.title}
-              </h2>
-              <h3 className="capitalize text-xl font-semibold">
+              </AnimatedItem>
+              <AnimatedItem as="h3" className="capitalize text-xl font-semibold">
                 {project.category} project
-              </h3>
-              <p className="text-white/60 whitespace-pre-line">{project.description}</p>
-              <ul className="flex gap-4 flex-wrap">
+              </AnimatedItem>
+              <AnimatedItem as="p" className="text-white/60 whitespace-pre-line">{project.description}</AnimatedItem>
+              <AnimatedItem as="ul" className="flex gap-4 flex-wrap">
                 {project.stack.map((item, index) => {
                   return (
                     <li key={index} className="text-xl text-accent inline-flex whitespace-nowrap">
@@ -116,51 +118,55 @@ const Work = () => {
                     </li>
                   );
                 })}
-              </ul>
-            </div>
+              </AnimatedItem>
+            </AnimatedSection>
           </div>
           <div className="w-full xl:w-[50%] flex flex-col">
-            <div className="flex items-center gap-4 justify-end my-3 order-2 xl:order-none">
-              <Link href={project.live} target="_blank" className={project.live ? "block" : "hidden"}>
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
-                      <BsArrowUpRight className="text-white text-3xl group-hover:text-accent" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Live project</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Link>
+            <AnimatedSection stagger={0.08} delay={2.9} className="flex items-center gap-4 justify-end my-3 order-2 xl:order-none">
+              <AnimatedItem>
+                <Link href={project.live} target="_blank" className={project.live ? "block" : "hidden"}>
+                  <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                      <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
+                        <BsArrowUpRight className="text-white text-3xl group-hover:text-accent" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Live project</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </Link>
+              </AnimatedItem>
 
-              <Link href={project.github} target="_blank" className={project.github ? "block" : "hidden"}>
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
-                      <BsGithub className="text-white text-3xl group-hover:text-accent" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Github repository</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Link>
-            </div>
+              <AnimatedItem>
+                <Link href={project.github} target="_blank" className={project.github ? "block" : "hidden"}>
+                  <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                      <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
+                        <BsGithub className="text-white text-3xl group-hover:text-accent" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Github repository</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </Link>
+              </AnimatedItem>
+            </AnimatedSection>
             <Swiper spaceBetween={30} slidesPerView={1} className="xl:h-[460px] order-1 xl:order-none w-full" onSlideChange={handleSlideChange}>
               {projects.map((project, index) => {
                 return <SwiperSlide key={index} className="w-full">
-                  <div className="h-[460px] relative group flex justify-center items-center bg-pink-50/20">
+                  <div className="h-[460px] relative group flex justify-center items-center bg-pink-50/20 rounded-2xl">
                     <div className="absolute top-0 bottom-0 w-full h-full bg-black/10 z-10"></div>
                     <div className="relative w-full h-full">
-                      <Image src={project.image} fill className="object-cover object-top border border-accent select-none"  alt={project.title} />
+                      <Image src={project.image} fill className="object-cover object-top border border-accent select-none border-4 rounded-2xl"  alt={project.title} />
                     </div>
                   </div>
                 </SwiperSlide>
               })}
               <WorkSliderBtns 
-                containerStyles="flex gap-2 absolute right-0  bottom-[calc(50%_-_22px)] z-20 w-full justify-between xl:justify-none" 
-                btnStyles="bg-accent hover:bg-accent-hover text-primary text-[22px] w-[44px] h-[44px] flex justify-center items-center transition-all"
+                containerStyles="flex gap-2 absolute right-0  bottom-[calc(50%_-_22px)] z-20 w-full justify-between xl:justify-none px-4" 
+                btnStyles="bg-accent hover:bg-accent-hover text-primary text-[22px] w-[44px] h-[44px] flex justify-center items-center transition-all rounded-full hover:scale-125"
               />
             </Swiper>
           </div>

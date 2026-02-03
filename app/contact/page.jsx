@@ -11,6 +11,8 @@ import emailjs from "emailjs-com";
 import { motion } from "framer-motion";
 
 import { useState } from "react";
+import AnimatedSection from "@/components/AnimatedSection";
+import AnimatedItem from "@/components/AnimatedItem";
 
 const info = [
   {
@@ -88,44 +90,48 @@ const Contact = () => {
         <div className="flex flex-col xl:flex-row gap-[30px]">
           <div className="xl:w-[54%] order-2 xl:order-none">
             <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl">
-              <h3 className="text-4xl text-accent">Let&apos;s work together</h3>
-              <p className="text-white/60">
-                I&apos;m always excited to collaborate on new projects, whether it&apos;s building a website from the ground up or enhancing an existing one.
-              </p>
-              <p className="text-white/60">
-                If you&apos;re looking for a dedicated web developer who can turn your ideas into reality, drop me a message below, and let&apos;s create something amazing together!
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input name="firstname" type="text" placeholder="First name" />
-                <Input name="email" type="email" placeholder="Email address" />
-              </div>
-              <Textarea 
-                name="message"
-                className="h-[200px]"
-                placeholder="Type your message here..."
-              />
-              <div className="flex justify-between">
-                <Button type="submit" size="md" className="max-w-40 text-black">
-                  Send message
-                </Button>
-                <motion.p 
-                  initial={{opacity: 0}}
-                  animate={{
-                    opacity: messageSent ? 1 : 0,
-                    transition: {duration: 0.5, ease: "easeIn"}
-                  }}
-                  
-                  className={`text-accent text-lg my-auto ${messageSent ? 'block' : 'hidden'}`}>
-                  Message sent successfully!
-                </motion.p>
-              </div>
+              <AnimatedSection stagger={0.08} delay={2.5}>
+                <AnimatedItem as="h3" className="text-4xl text-accent">Let&apos;s work together</AnimatedItem>
+                <AnimatedItem as="p" className="text-white/60">
+                  I&apos;m always excited to collaborate on new projects, whether it&apos;s building a website from the ground up or enhancing an existing one.
+                </AnimatedItem>
+                <AnimatedItem as="p" className="text-white/60">
+                  If you&apos;re looking for a dedicated web developer who can turn your ideas into reality, drop me a message below, and let&apos;s create something amazing together!
+                </AnimatedItem>
+                <AnimatedItem className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Input name="firstname" type="text" placeholder="First name" />
+                  <Input name="email" type="email" placeholder="Email address" />
+                </AnimatedItem>
+                <AnimatedItem>
+                  <Textarea
+                    name="message"
+                    className="h-[200px]"
+                    placeholder="Type your message here..."
+                  />
+                </AnimatedItem>
+                <AnimatedItem className="flex justify-between">
+                  <Button type="submit" size="md" className="max-w-40 text-black">
+                    Send message
+                  </Button>
+                  <motion.p
+                    initial={{opacity: 0}}
+                    animate={{
+                      opacity: messageSent ? 1 : 0,
+                      transition: {duration: 0.5, ease: "easeIn"}
+                    }}
+
+                    className={`text-accent text-lg my-auto ${messageSent ? 'block' : 'hidden'}`}>
+                    Message sent successfully!
+                  </motion.p>
+                </AnimatedItem>
+              </AnimatedSection>
             </form>
           </div>
           <div className="flex-1 flex items-center xl:justify-end order-1 xl:order-none mb-8 xl:mb-0">
-            <ul className="flex flex-col gap-10">
+            <AnimatedSection stagger={0.12} delay={2.7} as="ul" className="flex flex-col gap-10">
               {info.map((item, index) => {
                 return (
-                  <li key={index} className="flex items-center gap-6">
+                  <AnimatedItem key={index} as="li" className="flex items-center gap-6">
                     <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-[#27272c] text-accent rounded-md flex items-center justify-center">
                       <div className="text-[28px]">{item.icon}</div>
                     </div>
@@ -133,10 +139,10 @@ const Contact = () => {
                       <p className="text-white/60">{item.title}</p>
                       <h3 className="text-xl">{item.description}</h3>
                     </div>
-                  </li>
+                  </AnimatedItem>
                 );
               })}
-            </ul>
+            </AnimatedSection>
           </div>
         </div>
       </div>
