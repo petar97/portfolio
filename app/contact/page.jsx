@@ -90,7 +90,7 @@ const Contact = () => {
         <div className="flex flex-col xl:flex-row gap-[30px]">
           <div className="xl:w-[54%] order-2 xl:order-none">
             <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl">
-              <AnimatedSection stagger={0.08} delay={2.5}>
+              <AnimatedSection stagger={0.08} delay={2.5} className="flex flex-col gap-6">
                 <AnimatedItem as="h3" className="text-4xl text-accent">Let&apos;s work together</AnimatedItem>
                 <AnimatedItem as="p" className="text-white/60">
                   I&apos;m always excited to collaborate on new projects, whether it&apos;s building a website from the ground up or enhancing an existing one.
