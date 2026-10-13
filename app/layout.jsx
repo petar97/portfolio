@@ -1,9 +1,9 @@
 import { JetBrains_Mono } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 
 // Components
 import Header from "@/components/Header";
-import PageTransition from "@/components/PageTransition";
 import StairTransition from "@/components/StairTransition";
 
 const jetBrainsMono = JetBrains_Mono({
@@ -13,20 +13,44 @@ const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const SITE_URL = "https://petar97.github.io/portfolio/";
+const TITLE = "Petar Milovanović - Frontend Engineer";
+const DESCRIPTION = "Frontend engineer creating sleek, responsive, and user-friendly web applications with React, Next.js, Vue and Nuxt.";
+// Absolute URL: link-preview crawlers need it, and Next doesn't add basePath to metadata URLs
+const PREVIEW_IMAGE = { url: `${SITE_URL}og.png`, width: 1200, height: 630, alt: TITLE };
+
 export const metadata = {
-  title: "Portfolio - Petar Milovanovic",
-  description: "My personal portfolio website",
+  title: {
+    default: TITLE,
+    template: "%s - Petar Milovanović",
+  },
+  description: DESCRIPTION,
+  openGraph: {
+    type: "website",
+    // No og:url here: subpages inherit this block, and crawlers fall back to the URL actually shared
+    siteName: "Petar Milovanović",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [PREVIEW_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [PREVIEW_IMAGE.url],
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={jetBrainsMono.variable}>
-        <Header />
-        <StairTransition />
-        <PageTransition>
+        {/* Disables transform animations for users who prefer reduced motion */}
+        <MotionConfig reducedMotion="user">
+          <Header />
+          <StairTransition />
           {children}
-        </PageTransition>
+        </MotionConfig>
       </body>
     </html>
   );

@@ -9,15 +9,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "framer-motion";
 import AnimatedSection from "@/components/AnimatedSection";
 import AnimatedItem from "@/components/AnimatedItem";
-
-{/* 
-IKONICE ISPRED NASLOVA?
-*/}
+import { ENTRY_DELAY } from "@/lib/animations";
 
 const experience = {
   icon: "",
   title: "My experience",
-  desciption: "Currently working as a Frontend Developer at AppWorks, where I serve as the sole frontend engineer handling both UI/UX design and full implementation for media, sports, and content-driven platforms. I work with Vue, Nuxt, React, Next, Laravel blade templating, API-driven architectures, and responsive/mobile-first design to deliver fast, accessible, SEO-optimized experiences.\n\nMy workflow spans Git collaboration, Figma design, Tailwind, Bootstrap, custom CSS, cross-browser compatibility, and close partnership with backend engineers. Previously, I gained valuable experience at Šema and OCP Studio, working across digital marketing agencies and web studios on projects ranging from small e-commerce sites to complex digital ecosystems.",
+  description: "Currently working as a Frontend Developer at AppWorks, where I serve as the sole frontend engineer handling both UI/UX design and full implementation for media, sports, and content-driven platforms. I work with Vue, Nuxt, React, Next, Laravel blade templating, API-driven architectures, and responsive/mobile-first design to deliver fast, accessible, SEO-optimized experiences.\n\nMy workflow spans Git collaboration, Figma design, Tailwind, Bootstrap, custom CSS, cross-browser compatibility, and close partnership with backend engineers. Previously, I gained valuable experience at Šema and OCP Studio, working across digital marketing agencies and web studios on projects ranging from small e-commerce sites to complex digital ecosystems. Between roles, I completed a Master's degree in Software Engineering at Singidunum University (2021 - 2023).",
   items: [
     {
       company: "AppWorks",
@@ -27,7 +24,7 @@ const experience = {
     {
       company: "Šema",
       position: "Web Developer",
-      duration: "2019 - 2020"
+      duration: "2019 - 2021"
     },
     {
       company: "OCP Studio",
@@ -40,15 +37,15 @@ const experience = {
 const education = {
   icon: "",
   title: "My education",
-  desciption: "I hold a Master’s degree in Software Engineering from Singidunum University, where I specialized in web and software development.\n\nDuring my studies, I focused on building practical skills through projects like full-stack and front-end web apps and mobile development. My journey into tech started with a Bachelor's in Informatics and Computing, which provided me with a solid foundation in programming and web technologies.",
+  description: "I hold a Master’s degree in Software Engineering from Singidunum University, where I specialized in web and software development.\n\nDuring my studies, I focused on building practical skills through projects like full-stack and front-end web apps and mobile development. My journey into tech started with a Bachelor's in Informatics and Computing, which provided me with a solid foundation in programming and web technologies.",
   items: [
     {
-      institution: "Software Engineering Module",
+      institution: "Singidunum University",
       degree: "Master’s degree",
       duration: "2021 - 2023"
     },
     {
-      institution: "Faculty of Informatics and Computing",
+      institution: "Faculty of Informatics and Computing, Singidunum University",
       degree: "Bachelor's degree",
       duration: "2017 - 2021"
     },
@@ -57,7 +54,7 @@ const education = {
 
 const skills = {
   title: "My skills",
-  desciption: "My technical toolkit spans modern frontend and backend technologies. I'm proficient in HTML, CSS, JavaScript, and frameworks like React, Next.js, Vue, and Nuxt. I also work with Laravel/PHP, Node.js, and databases including SQL and NoSQL.\n\nMy design and development workflow includes Figma for UI/UX, Tailwind and Bootstrap for styling, Git for version control, and tools like Firebase, Asana, and Trello for project management and deployment.",
+  description: "My technical toolkit spans modern frontend and backend technologies. I'm proficient in HTML, CSS, JavaScript, and frameworks like React, Next.js, Vue, and Nuxt. I also work with Laravel/PHP, Node.js, and databases including SQL and NoSQL.\n\nMy design and development workflow includes Figma for UI/UX, Tailwind and Bootstrap for styling, Git for version control, and tools like Firebase, Asana, and Trello for project management and deployment.",
   categories: [
     {
       name: "Frontend Frameworks",
@@ -136,11 +133,11 @@ const skills = {
 
 const about = {
   title: "About me",
-  desciption: "I'm passionate about bringing ideas to life through web development. Whether it’s creating a personal portfolio or collaborating on larger digital ecosystems, I focus on designing intuitive, efficient, and scalable solutions.\n\nWith a strong background in front-end and experience with back-end technologies, I'm always excited to tackle new challenges and grow as a developer. Let’s build something great together!",
+  description: "I'm passionate about bringing ideas to life through web development. Whether it’s creating a personal portfolio or collaborating on larger digital ecosystems, I focus on designing intuitive, efficient, and scalable solutions.\n\nWith a strong background in front-end and experience with back-end technologies, I'm always excited to tackle new challenges and grow as a developer. Let’s build something great together!",
   info: [
     {
       fieldName: "Name",
-      fieldValue: "Petar Milovanovic"
+      fieldValue: "Petar Milovanović"
     },
     {
       fieldName: "Phone",
@@ -148,7 +145,7 @@ const about = {
     },
     {
       fieldName: "Experience",
-      fieldValue: "3 Years"
+      fieldValue: "3+ Years"
     },
     {
       fieldName: "Nationality",
@@ -175,11 +172,12 @@ const Resume = () => {
       initial={{opacity: 0}} 
       animate={{
         opacity: 1, 
-        transition: {delay: 2.4, duration: 0.4, ease: "easeIn"},
+        transition: {delay: ENTRY_DELAY, duration: 0.4, ease: "easeIn"},
       }}
       className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
     >
       <div className="container mx-auto">
+        <h1 className="sr-only">Resume</h1>
         <Tabs 
           defaultValue="experience" 
           className="flex flex-col xl:flex-row gap-[60px]"
@@ -203,7 +201,7 @@ const Resume = () => {
                   {experience.title}
                 </h3>
                 <p className="text-white/60 mx-auto xl:mx-0 whitespace-pre-line">
-                  {experience.desciption}
+                  {experience.description}
                 </p>
                 <ScrollArea className="h-[400px]">
                   <AnimatedSection stagger={0.1} delay={0.2} as="ul" className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
@@ -233,10 +231,10 @@ const Resume = () => {
                   {education.title}
                 </h3>
                 <p className="text-white/60 mx-auto xl:mx-0 whitespace-pre-line">
-                  {education.desciption}
+                  {education.description}
                 </p>
                 <ScrollArea className="h-[400px]">
-                  <AnimatedSection stagger={0.1} delay={0.2} as="ul" className="grid grid-cols-1 lg:grid-cols-2 gap-[30px] /* ${[&>*:nth-child(2)]:pr-20} */">
+                  <AnimatedSection stagger={0.1} delay={0.2} as="ul" className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
                     {education.items.map((item, index) => {
                       return <AnimatedItem key={index} as="li" className="bg-[#232329] h-[186px] py-6 px-10 rounded-xl flex flex-col items-center lg:items-start gap-1 ">
                         <span className="text-accent">{item.duration}</span>
@@ -261,7 +259,7 @@ const Resume = () => {
               >
                 <div className="flex flex-col gap-[30px] text-center xl:text-left">
                   <h3 className="text-4xl font-bold">{skills.title}</h3>
-                  <p className="text-white/60 mx-auto xl:mx-0 whitespace-pre-line">{skills.desciption}</p>
+                  <p className="text-white/60 mx-auto xl:mx-0 whitespace-pre-line">{skills.description}</p>
                 </div>
                 <motion.div
                   animate={{
@@ -311,7 +309,7 @@ const Resume = () => {
                 className="flex flex-col gap-[30px]"
               >
                 <h3 className="text-4xl font-bold">{about.title}</h3>
-                <p className="text-white/60 mx-auto xl:mx-0 whitespace-pre-line">{about.desciption}</p>
+                <p className="text-white/60 mx-auto xl:mx-0 whitespace-pre-line">{about.description}</p>
                 <AnimatedSection stagger={0.08} delay={0.3} as="ul" className="grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[620px] mx-auto xl:mx-0">
                   {about.info.map((item, index) => {
                     return <AnimatedItem key={index} as="li" className="flex items-center justify-center xl:justify-start gap-4">

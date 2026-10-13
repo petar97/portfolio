@@ -75,6 +75,14 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        env:
+          # Repository variable (Settings > Secrets and variables > Actions > Variables)
+          NEXT_PUBLIC_EMAILJS_PUBLIC_KEY: ${{ vars.EMAILJS_PUBLIC_KEY }}
+      # Tests the exact export that gets deployed; a failure stops the deploy
+      - name: Install Playwright browser
+        run: ${{ steps.detect-package-manager.outputs.runner }} playwright install --with-deps chromium
+      - name: Run end-to-end tests
+        run: ${{ steps.detect-package-manager.outputs.runner }} playwright test
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

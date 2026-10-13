@@ -1,12 +1,12 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { createContainerVariants, reducedContainerVariants } from "@/lib/animations";
+import { createContainerVariants, reducedContainerVariants, ENTRY_DELAY } from "@/lib/animations";
 
 const AnimatedSection = ({
   children,
   stagger = 0.1,
-  delay = 2.4,
+  delay = ENTRY_DELAY,
   className = "",
   as = "div",
 }) => {

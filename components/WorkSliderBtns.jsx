@@ -3,15 +3,15 @@
 import {useSwiper} from "swiper/react";
 import {PiCaretLeftBold, PiCaretRightBold} from "react-icons/pi";
 
-const WorkSliderBtns = ({containerStyles, btnStyles, iconsStyles}) => {
+const WorkSliderBtns = ({containerStyles, btnStyles}) => {
   const swiper = useSwiper();
   return (
     <div className={containerStyles}>
-      <button className={btnStyles} onClick={() => swiper.slidePrev()}>
-        <PiCaretLeftBold className={iconsStyles} />
+      <button type="button" aria-label="Previous project" className={btnStyles} onClick={() => swiper.slidePrev()}>
+        <PiCaretLeftBold />
       </button>
-      <button className={btnStyles} onClick={() => swiper.slideNext()}>
-        <PiCaretRightBold className={iconsStyles} />
+      <button type="button" aria-label="Next project" className={btnStyles} onClick={() => swiper.slideNext()}>
+        <PiCaretRightBold />
       </button>
     </div>
   )

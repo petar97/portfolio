@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { asset } from "@/lib/utils";
+import { ENTRY_DELAY } from "@/lib/animations";
 
 const Photo = () => {
   return (
@@ -10,7 +12,7 @@ const Photo = () => {
         initial={{opacity: 0}} 
         animate={{
           opacity: 1, 
-          transition: {delay: 1.8, duration: 0.4, ease: "easeIn"}
+          transition: {delay: ENTRY_DELAY, duration: 0.4, ease: "easeIn"}
         }}
       >
         {/* image */}
@@ -18,11 +20,11 @@ const Photo = () => {
           initial={{opacity: 0}} 
           animate={{
             opacity: 1, 
-            transition: {delay: 2.0, duration: 0.4, ease: "easeInOut"}
+            transition: {delay: ENTRY_DELAY + 0.2, duration: 0.4, ease: "easeInOut"}
           }}
           className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute bg-primary"
         >
-          <Image src="assets/port-pic.png" priority quality={85} fill sizes="(max-width: 768px) 298px, 498px" alt="portfolio picture" className="object-contain rounded-full mix-blend-lighten" />
+          <Image src={asset("/assets/port-pic.webp")} priority fill sizes="(max-width: 768px) 298px, 498px" alt="Portrait of Petar" className="object-contain rounded-full mix-blend-lighten" />
         </motion.div>
 
         {/* circle */}
@@ -30,12 +32,13 @@ const Photo = () => {
           className="w-[300px] xl:w-[506px] h-[300px] xl:h-[506px]" 
           fill="transparent" 
           viewBox="0 0 506 506" 
+          aria-hidden="true"
         >
           <motion.circle
             cx="253"
             cy="253"
             r="250"
-            stroke="#CD5C5C"
+            className="stroke-accent"
             strokeWidth="4"
             strokeLinecap="round"
             strokeLinejoin="round"

@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Petar Milovanović — Portfolio
 
-## Getting Started
+Personal portfolio site: home, résumé, selected work and a contact form.
 
-First, run the development server:
+**Live:** https://petar97.github.io/portfolio/
+
+## Stack
+
+- [Next.js 14](https://nextjs.org/) (App Router) exported as a static site
+- [Tailwind CSS](https://tailwindcss.com/) with [shadcn/ui](https://ui.shadcn.com/) components on Radix primitives
+- [Framer Motion](https://www.framer.com/motion/) for page and entry animations
+- [Swiper](https://swiperjs.com/) for the project slider
+- [EmailJS](https://www.emailjs.com/) for the contact form (no backend)
+
+## Development
+
+The contact form needs your EmailJS public key. Create `.env.local` (gitignored) in the project root:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=<your EmailJS public key>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Production builds fail without it, so a deploy can't ship a form that silently doesn't send.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev     # http://localhost:3000
+npm run lint
+npm run build   # static export to ./out
+npm test        # Playwright end-to-end tests (builds first, serves ./out under /portfolio)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+First run only: `npx playwright install chromium`. The tests stub EmailJS, so the contact form never sends real email.
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Pushing to `main` builds, runs the end-to-end tests, and deploys to GitHub Pages via `.github/workflows/nextjs.yml`. A failing test stops the deploy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The build reads the EmailJS key from a repository variable named `EMAILJS_PUBLIC_KEY` (Settings → Secrets and variables → Actions → Variables). It ends up in the browser bundle either way, since EmailJS needs it client-side; the variable only keeps it out of the repo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Production builds are served under `/portfolio`, so string paths to files in `public/` must go through the `asset()` helper in `lib/utils.js`; `next/image` and plain `<a>` tags don't add the base path on their own.
 
-## Deploy on Vercel
+## Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+app/          routes: / (home), /resume, /work, /contact
+components/   page sections, navigation, transitions; ui/ holds shadcn components
+lib/          animation variants and helpers
+e2e/          Playwright tests and the static server they run against
+public/assets CV, portrait and project screenshots
+```
