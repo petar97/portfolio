@@ -9,6 +9,7 @@ const AnimatedSection = ({
   delay = ENTRY_DELAY,
   className = "",
   as = "div",
+  ...props
 }) => {
   const prefersReducedMotion = useReducedMotion();
 
@@ -24,6 +25,7 @@ const AnimatedSection = ({
       initial="hidden"
       animate="visible"
       className={className}
+      {...props}
     >
       {children}
     </MotionComponent>

@@ -28,6 +28,10 @@ module.exports = {
                     hover: '#FF8A80',
                 },
             },
+            // Sticky header: above page content, below dialogs, the mobile menu and tooltips (z-50)
+            zIndex: {
+                header: '40',
+            },
         },
     },
     plugins: [require('tailwindcss-animate')],

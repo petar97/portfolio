@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { asset } from "@/lib/utils";
-import { ENTRY_DELAY } from "@/lib/animations";
+import { ENTRY_DELAY, PAGE_FADE } from "@/lib/animations";
 
 const Photo = () => {
   return (
@@ -12,7 +12,7 @@ const Photo = () => {
         initial={{opacity: 0}} 
         animate={{
           opacity: 1, 
-          transition: {delay: ENTRY_DELAY, duration: 0.4, ease: "easeIn"}
+          transition: PAGE_FADE
         }}
       >
         {/* image */}
@@ -20,11 +20,11 @@ const Photo = () => {
           initial={{opacity: 0}} 
           animate={{
             opacity: 1, 
-            transition: {delay: ENTRY_DELAY + 0.2, duration: 0.4, ease: "easeInOut"}
+            transition: { ...PAGE_FADE, delay: ENTRY_DELAY + 0.1 }
           }}
-          className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute bg-primary"
+          className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] absolute"
         >
-          <Image src={asset("/assets/port-pic.webp")} priority fill sizes="(max-width: 768px) 298px, 498px" alt="Portrait of Petar" className="object-contain rounded-full mix-blend-lighten" />
+          <Image src={asset("/assets/port-pic.webp")} priority fill sizes="(max-width: 768px) 298px, 498px" alt="Portrait of Petar" className="object-contain rounded-full" />
         </motion.div>
 
         {/* circle */}

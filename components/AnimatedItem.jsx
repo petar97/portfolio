@@ -5,10 +5,11 @@ import { createItemVariants, reducedItemVariants } from "@/lib/animations";
 
 const AnimatedItem = ({
   children,
-  y = 20,
-  duration = 0.5,
+  y = 12,
+  duration = 0.25,
   as = "div",
   className = "",
+  ...props
 }) => {
   const prefersReducedMotion = useReducedMotion();
 
@@ -19,7 +20,7 @@ const AnimatedItem = ({
   const MotionComponent = motion[as];
 
   return (
-    <MotionComponent variants={itemVariants} className={className}>
+    <MotionComponent variants={itemVariants} className={className} {...props}>
       {children}
     </MotionComponent>
   );

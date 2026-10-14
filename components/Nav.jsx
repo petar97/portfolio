@@ -23,8 +23,11 @@ export const links = [
     },
 ];
 
-// trailingSlash: true may leave a trailing "/" on the pathname
-export const isActive = (path, pathname) => path === (pathname.replace(/(.)\/$/, "$1"));
+// trailingSlash: true may leave a trailing "/" on the pathname; nested pages (/work/<slug>) count as their section
+export const isActive = (path, pathname) => {
+    const current = pathname.replace(/(.)\/$/, "$1");
+    return path === current || (path !== "/" && current.startsWith(`${path}/`));
+};
 
 const Nav = () => {
     const pathname = usePathname();

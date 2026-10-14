@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import AnimatedSection from "@/components/AnimatedSection";
 import AnimatedItem from "@/components/AnimatedItem";
-import { ENTRY_DELAY } from "@/lib/animations";
+import { ENTRY_DELAY, PAGE_FADE } from "@/lib/animations";
 
 const info = [
   {
@@ -72,7 +72,7 @@ const Contact = () => {
       initial={{ opacity: 0 }}
       animate={{ 
         opacity: 1, 
-        transition: {delay: ENTRY_DELAY, duration: 0.4, ease: "easeIn"},
+        transition: PAGE_FADE,
       }}
       className="py-6"
     >

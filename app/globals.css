@@ -3,6 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  /* Header sizes, shared by the header and anything that has to clear it once it sticks.
+     Condensed, the header slides up by --header-pad, keeping half the padding above and below. */
+  :root {
+    --header-pad: 2rem;
+    --header-row: 2.75rem; /* tallest item: the 44px "Hire me" button */
+    --header-condensed: calc(var(--header-row) + var(--header-pad));
+  }
+  @screen xl {
+    :root {
+      --header-pad: 3rem;
+    }
+  }
+
+  /* In-page jumps (résumé menu) land below the sticky header */
+  html {
+    scroll-padding-top: var(--header-condensed);
+  }
+
   body {
     @apply font-primary bg-primary text-white leading-loose;
   }
@@ -13,5 +31,19 @@
   
   .text-outline {
     -webkit-text-stroke: 1px #ffffff;
+  }
+}
+
+/* Swiper animates slides with an inline transition-duration; drop it for reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .swiper-wrapper {
+    transition-duration: 0ms !important;
+  }
+}
+
+/* Smooth jumps to in-page sections (résumé menu) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }

@@ -8,6 +8,10 @@ if (isProd && !process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
 }
 const nextConfig = {
   reactStrictMode: true,
+  // `next dev` gets its own folder: a `next build` (npm test, a manual build) rewrites `.next`
+  // and would break a running dev server. Builds must keep the default: with output 'export',
+  // a custom distDir becomes the export folder instead of `out`.
+  ...(!isProd && { distDir: '.next-dev' }),
   images: {
     unoptimized: true,
   },
