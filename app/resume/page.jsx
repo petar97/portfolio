@@ -5,8 +5,7 @@ import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 import AnimatedSection from "@/components/AnimatedSection";
 import AnimatedItem from "@/components/AnimatedItem";
-import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs, FaGitAlt, FaCode } from "react-icons/fa";
-import { SiTailwindcss, SiNextdotjs } from "react-icons/si";
+import { FaLaptopCode, FaServer, FaFlask, FaDatabase, FaJava, FaTools, FaRobot } from "react-icons/fa";
 
 const experience = {
   title: "Experience",
@@ -68,13 +67,13 @@ const education = {
 const skills = {
   title: "Skills",
   groups: [
-    { name: "Frontend", items: ["HTML", "CSS", "JavaScript", "TypeScript", "Vue", "Nuxt", "React", "Next.js", "Pinia", "jQuery", "Tailwind CSS", "Bootstrap", "WordPress"] },
-    { name: "Backend & APIs", items: ["Node.js", "PHP", "Laravel Blade", "REST APIs"] },
-    { name: "Testing", items: ["Vitest", "Playwright"] },
-    { name: "Database", items: ["SQL", "NoSQL"] },
-    { name: "General-purpose", items: ["Java"] },
-    { name: "Tools & workflow", items: ["Git", "Vite", "Figma", "Google Firebase", "Cloudflare", "Asana", "Trello"] },
-    { name: "AI-assisted development", items: ["Claude", "ChatGPT", "Cursor"] },
+    { name: "Frontend", icon: FaLaptopCode, items: ["HTML", "CSS", "JavaScript", "TypeScript", "Vue", "Nuxt", "React", "Next.js", "Pinia", "jQuery", "Tailwind CSS", "Bootstrap", "WordPress"] },
+    { name: "Backend & APIs", icon: FaServer, items: ["Node.js", "PHP", "Laravel Blade", "REST APIs"] },
+    { name: "Testing", icon: FaFlask, items: ["Vitest", "Playwright"] },
+    { name: "Database", icon: FaDatabase, items: ["SQL", "NoSQL"] },
+    { name: "General-purpose", icon: FaJava, items: ["Java"] },
+    { name: "Tools & workflow", icon: FaTools, items: ["Git", "Vite", "Figma", "Google Firebase", "Cloudflare", "Asana", "Trello"] },
+    { name: "AI-assisted development", icon: FaRobot, items: ["Claude", "ChatGPT", "Cursor"] },
   ],
 };
 
@@ -90,39 +89,49 @@ const about = {
 };
 
 const SECTIONS = [
+  { id: "about", label: "About me" },
   { id: "experience", label: "Experience" },
   { id: "education", label: "Education" },
   { id: "skills", label: "Skills" },
-  { id: "about", label: "About me" },
 ];
 const SECTION_IDS = SECTIONS.map((s) => s.id);
-
-const skillIcons = {
-  HTML: FaHtml5,
-  CSS: FaCss3Alt,
-  JavaScript: FaJs,
-  React: FaReact,
-  "Next.js": SiNextdotjs,
-  "Tailwind CSS": SiTailwindcss,
-  "Node.js": FaNodeJs,
-  Git: FaGitAlt,
-};
 
 const card = "bg-[#232329] py-6 px-8 rounded-xl flex flex-col gap-2";
 const dot = <span aria-hidden="true" className="inline-block w-[6px] h-[6px] rounded-full bg-accent mr-3 align-middle" />;
 // scroll-mt leaves room above a section when jumping to it from the menu
 const sectionClass = "scroll-mt-8 flex flex-col gap-[30px]";
 
-// Highlights the section currently crossing the middle of the viewport
+// Track the section nearest the viewport's reading line, including the page end.
 const useActiveSection = (ids) => {
   const [active, setActive] = useState(ids[0]);
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
-      { rootMargin: "-45% 0px -50% 0px" }
-    );
-    ids.forEach((id) => observer.observe(document.getElementById(id)));
-    return () => observer.disconnect();
+    let frame = 0;
+    const updateActiveSection = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const atPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+        if (atPageEnd) {
+          setActive(ids[ids.length - 1]);
+          return;
+        }
+
+        const readingLine = window.innerHeight * 0.45;
+        const current = [...ids].reverse().find((id) => {
+          const section = document.getElementById(id);
+          return section && section.getBoundingClientRect().top <= readingLine;
+        });
+        if (current) setActive(current);
+      });
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
   }, [ids]);
   return active;
 };
@@ -136,7 +145,7 @@ const Resume = () => {
       <div className="flex flex-col xl:flex-row gap-[60px]">
         {/* A track line (bottom on phones, right on desktop) with the active section marked in accent */}
         <nav aria-label="Resume sections" className="xl:w-[300px] xl:order-2 shrink-0">
-          <ul className="flex overflow-x-auto xl:flex-col border-b xl:border-b-0 xl:border-r border-white/10 xl:sticky xl:top-[calc(var(--header-condensed)+2rem)]">
+          <ul className="flex xl:flex-col border-b xl:border-b-0 xl:border-r border-white/10 xl:sticky xl:top-[calc(var(--header-condensed)+2rem)]">
             {SECTIONS.map(({ id, label }, i) => (
               <li key={id} className="flex-1 xl:flex-none">
                 <a
@@ -153,6 +162,19 @@ const Resume = () => {
         </nav>
 
         <AnimatedSection stagger={0.1} className="flex-1 flex flex-col gap-24 xl:order-1">
+          <AnimatedItem as="section" id="about" aria-labelledby="about-title" className={sectionClass}>
+            <h2 id="about-title" className="text-4xl font-bold">{about.title}</h2>
+            <p className="text-white/60 whitespace-pre-line">{about.description}</p>
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10">
+              {about.info.map((item) => (
+                <div key={item.fieldName} className="flex flex-col">
+                  <dt className="text-white/60">{item.fieldName}</dt>
+                  <dd className="text-xl">{item.fieldValue}</dd>
+                </div>
+              ))}
+            </dl>
+          </AnimatedItem>
+
           <AnimatedItem as="section" id="experience" aria-labelledby="experience-title" className={sectionClass}>
             <h2 id="experience-title" className="text-4xl font-bold">{experience.title}</h2>
             <p className="text-white/60 whitespace-pre-line">{experience.description}</p>
@@ -195,29 +217,13 @@ const Resume = () => {
             <div className="flex flex-col gap-8">
               {skills.groups.map((group) => (
                 <div key={group.name} className="flex flex-col gap-3">
-                  <h3 className="text-xl font-semibold text-accent">{group.name}</h3>
+                  <h3 className="flex items-center gap-3 text-xl font-semibold text-accent"><group.icon aria-hidden="true" className="text-2xl" />{group.name}</h3>
                   <ul className="flex flex-wrap gap-3">
-                    {group.items.map((skill) => {
-                      const Icon = skillIcons[skill] || FaCode;
-                      return <li key={skill} className="inline-flex items-center gap-2 rounded-lg bg-[#232329] px-4 py-2"><Icon aria-hidden="true" className="text-accent" /><span>{skill}</span></li>;
-                    })}
+                    {group.items.map((skill) => <li key={skill} className="rounded-lg bg-[#232329] px-4 py-2">{skill}</li>)}
                   </ul>
                 </div>
               ))}
             </div>
-          </AnimatedItem>
-
-          <AnimatedItem as="section" id="about" aria-labelledby="about-title" className={sectionClass}>
-            <h2 id="about-title" className="text-4xl font-bold">{about.title}</h2>
-            <p className="text-white/60 whitespace-pre-line">{about.description}</p>
-            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10">
-              {about.info.map((item) => (
-                <div key={item.fieldName} className="flex flex-col">
-                  <dt className="text-white/60">{item.fieldName}</dt>
-                  <dd className="text-xl">{item.fieldValue}</dd>
-                </div>
-              ))}
-            </dl>
           </AnimatedItem>
         </AnimatedSection>
       </div>
