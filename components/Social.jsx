@@ -22,15 +22,15 @@ const socials = [
 const Social = ({ containerStyles, iconStyles }) => {
   return (
     <div className={containerStyles}>
-      {socials.map((item, index) => {
+      {socials.map((item) => {
         return (
-          <Link href={item.url} key={index} className={iconStyles} target="_blank">
+          <Link href={item.url} key={item.name} aria-label={item.name} className={iconStyles} target="_blank" rel="noopener noreferrer">
             {item.icon}
           </Link>
         )
       })}
     </div>
   )
-}
+};
 
 export default Social

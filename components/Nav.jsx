@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-const links = [
+export const links = [
     {
         name: "home",
         path: "/",
@@ -22,16 +23,24 @@ const links = [
     },
 ];
 
+// trailingSlash: true may leave a trailing "/" on the pathname; nested pages (/work/<slug>) count as their section
+export const isActive = (path, pathname) => {
+    const current = pathname.replace(/(.)\/$/, "$1");
+    return path === current || (path !== "/" && current.startsWith(`${path}/`));
+};
+
 const Nav = () => {
     const pathname = usePathname();
     return (
         <nav className="flex gap-8">
-            {links.map((link, index) => {
+            {links.map((link) => {
+                const active = isActive(link.path, pathname);
                 return (
-                    <Link  
-                        key={index} 
-                        href={link.path} 
-                        className={`${link.path === pathname && "text-accent border-b-2 border-accent"} capitalize font-medium hover:text-accent transition-all`}
+                    <Link
+                        key={link.path}
+                        href={link.path}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(active && "text-accent border-b-2 border-accent", "capitalize font-medium hover:text-accent transition-all")}
                     >
                         {link.name}
                     </Link>
@@ -39,6 +48,6 @@ const Nav = () => {
             })}
         </nav>
   )
-}
+};
 
 export default Nav

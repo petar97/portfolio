@@ -1,31 +1,36 @@
 import { JetBrains_Mono } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 
 // Components
 import Header from "@/components/Header";
-import PageTransition from "@/components/PageTransition";
-import StairTransition from "@/components/StairTransition";
+import { SITE_NAME, TITLE, DESCRIPTION, shareMeta } from "@/lib/site";
 
 const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  subsets: ["latin-ext"],
+  weight: ["400", "600"],
   variable: "--font-jetbrains-mono",
+  display: "swap",
 });
 
 export const metadata = {
-  title: "Portfolio - Petar Milovanovic",
-  description: "My personal portfolio website",
+  title: {
+    default: TITLE,
+    template: `%s - ${SITE_NAME}`,
+  },
+  description: DESCRIPTION,
+  ...shareMeta(TITLE, DESCRIPTION),
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={jetBrainsMono.variable}>
-        <Header />
-        <StairTransition />
-        <PageTransition>
+        {/* Disables transform animations for users who prefer reduced motion */}
+        <MotionConfig reducedMotion="user">
+          <Header />
           {children}
-        </PageTransition>
+        </MotionConfig>
       </body>
     </html>
   );

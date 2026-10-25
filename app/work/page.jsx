@@ -1,173 +1,89 @@
 "use client";
 
 import { motion } from "framer-motion";
-import React, { useState } from "react";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-
-import { BsArrowUpRight, BsGithub } from "react-icons/bs";
-
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import WorkSliderBtns from "@/components/WorkSliderBtns";
+import Link from "next/link";
 
-const projects = [
-  {
-    num: "01",
-    category: "wordpress",
-    title: "STRIMHealth",
-    description: "Led the development of the StrimHealth platform for IBISS, University of Belgrade. Focused on creating a responsive and user-friendly front-end, tailored to healthcare research needs. The project involved building a fully customized WordPress theme, implementing dynamic elements through custom fields and objects, and optimizing the user interface for seamless navigation across devices.\n\n Ensured design consistency, accessibility, and performance optimization throughout the development process.",
-    stack: [
-      { name: "Html 5" },
-      { name: "Css 3" },
-      { name: "Javascript" },
-      { name: "Wordpress" },
-    ],
-    image: "assets/work/strimhealth.webp",
-    live: "https://strimhealth.ibiss.bg.ac.rs/",
-    github: "",
-  },
-  {
-    num: "02",
-    category: "full-stack",
-    title: "delaygram",
-    description: "Delaygram is a social media platform inspired by Instagram, built using React, Node.js, and Firebase. It allows users to post, comment, and interact with images in real-time.I developed both the front-end and back-end, implementing user authentication, real-time database updates, and a clean, responsive interface.\n\nThis project demonstrates my ability to create full-stack applications with a focus on seamless user experience and efficient data handling.",
-    stack: [
-      { name: "Html 5" },
-      { name: "Css 3" },
-      { name: "Javascript" },
-      { name: "React" },
-      { name: "Google Firebase" },
-      { name: "Node.js" },
-    ],
-    image: "assets/work/delaygram.webp",
-    live: "https://delaygram-rho.vercel.app/",
-    github: "https://github.com/petar97/delaygram",
-  },
-  {
-    num: "03",
-    category: "front-end",
-    title: "šema website",
-    description: "This project is a responsive website created for Šema, a digital agency, utilizing HTML5, CSS3, and JavaScript. The site was designed to showcase the agency's services, including advertising, branding, and web development. It features an intuitive layout, smooth animations, and a clean, modern design.\n\nMy role involved developing the front-end architecture and ensuring a seamless user experience across all devices.",
-    stack: [
-      { name: "Html 5" },
-      { name: "Css 3" },
-      { name: "Javascript" }
-    ],
-    image: "assets/work/sema.webp",
-    live: "https://petar97.github.io/sema-website/",
-    github: "https://github.com/petar97/sema-website",
-  },
-  {
-    num: "04",
-    category: "mobile android",
-    title: "the rick and morty app",
-    description: "The Rick and Morty App is an Android application built in Java, allowing users to browse characters from the popular show 'Rick and Morty.' It uses the Rick and Morty API to fetch character data, implementing efficient pagination and a clean user interface.\n\nThe app demonstrates my skills in mobile development, including working with RESTful APIs, handling asynchronous data loading, and building an intuitive UI for mobile users.",
-    stack: [
-      { name: "Java" },
-    ],
-    image: "assets/work/ram.webp",
-    live: "",
-    github: "https://github.com/petar97/TheRickAndMortyApp",
-  },
-]
+import AnimatedSection from "@/components/AnimatedSection";
+import AnimatedItem from "@/components/AnimatedItem";
+import { PAGE_FADE } from "@/lib/animations";
+import { projects, FILTERS, galleryOf } from "@/lib/projects";
 
+// Remembers the chosen tab for the visit, so coming back from a project page lands on the same list
+const FILTER_KEY = "work-filter";
+// Stack items shown on a card before "+N"
+const CARD_STACK = 3;
 
 const Work = () => {
-  const [project, setProject] = useState(projects[0]);
+  const [filter, setFilter] = useState("all");
+  const visible = filter === "all" ? projects : projects.filter((p) => p.type === filter);
 
-  const handleSlideChange = (swiper) => {
-    const currentIndex = swiper.activeIndex;
+  useEffect(() => {
+    const saved = sessionStorage.getItem(FILTER_KEY);
+    if (FILTERS.some((f) => f.id === saved)) setFilter(saved);
+  }, []);
 
-    setProject(projects[currentIndex]);
+  const selectFilter = (id) => {
+    setFilter(id);
+    sessionStorage.setItem(FILTER_KEY, id);
   };
 
   return (
     <motion.section
       initial={{ opacity: 0 }}
-      animate={{ 
-        opacity: 1, 
-        transition: {delay: 2.4, duration: 0.4, ease: "easeIn"},
-      }}
-      className="min-h-[80vh] flex flex-col pb-12 xl:px-0"
+      animate={{ opacity: 1, transition: PAGE_FADE }}
+      className="min-h-[80vh] pb-24"
     >
       <div className="container mx-auto">
-        <div className="flex flex-col xl:flex-row xl:gap-[30px]">
-          <div className="w-full xl:w-[50%] flex flex-col xl:justify-between order-2 xl:order-none">
-            <div className="flex flex-col gap-[30px] h-[50%]">
-              <div className="text-8xl leading-none font-extrabold text-transparent text-outline mt-[-90px] xl:mt-3 -z-10">
-                {project.num}
-              </div>
-              <h2 className="text-[42px] font-bold leading-none text-white group-hover:text-accent transition-all duration-500 capitalize ">
-                {project.title}
-              </h2>
-              <h3 className="capitalize text-xl font-semibold">
-                {project.category} project
-              </h3>
-              <p className="text-white/60 whitespace-pre-line">{project.description}</p>
-              <ul className="flex gap-4 flex-wrap">
-                {project.stack.map((item, index) => {
-                  return (
-                    <li key={index} className="text-xl text-accent inline-flex whitespace-nowrap">
-                      {item.name}
-                      {index !== project.stack.length - 1 && ","}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-          <div className="w-full xl:w-[50%] flex flex-col">
-            <div className="flex items-center gap-4 justify-end my-3 order-2 xl:order-none">
-              <Link href={project.live} target="_blank" className={project.live ? "block" : "hidden"}>
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
-                      <BsArrowUpRight className="text-white text-3xl group-hover:text-accent" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Live project</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Link>
-
-              <Link href={project.github} target="_blank" className={project.github ? "block" : "hidden"}>
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
-                      <BsGithub className="text-white text-3xl group-hover:text-accent" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Github repository</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Link>
-            </div>
-            <Swiper spaceBetween={30} slidesPerView={1} className="xl:h-[460px] order-1 xl:order-none w-full" onSlideChange={handleSlideChange}>
-              {projects.map((project, index) => {
-                return <SwiperSlide key={index} className="w-full">
-                  <div className="h-[460px] relative group flex justify-center items-center bg-pink-50/20">
-                    <div className="absolute top-0 bottom-0 w-full h-full bg-black/10 z-10"></div>
-                    <div className="relative w-full h-full">
-                      <Image src={project.image} fill className="object-cover object-top border border-accent select-none"  alt={project.title} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-              })}
-              <WorkSliderBtns 
-                containerStyles="flex gap-2 absolute right-0  bottom-[calc(50%_-_22px)] z-20 w-full justify-between xl:justify-none" 
-                btnStyles="bg-accent hover:bg-accent-hover text-primary text-[22px] w-[44px] h-[44px] flex justify-center items-center transition-all"
-              />
-            </Swiper>
-          </div>
+        <h1 className="sr-only">Work</h1>
+        <div role="tablist" aria-label="Project type" className="flex flex-wrap gap-2 mb-10">
+          {FILTERS.map(({ id, label }) => {
+            const count = id === "all" ? projects.length : projects.filter((p) => p.type === id).length;
+            return (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={filter === id}
+                onClick={() => selectFilter(id)}
+                className={`rounded-full px-5 py-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${filter === id ? "bg-accent text-primary" : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"}`}
+              >
+                {label} <span className={filter === id ? "text-primary/70" : "text-white/40"}>{count}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {/* key: replay the entry stagger when the filter changes */}
+        <AnimatedSection key={filter} as="ul" stagger={0.05} delay={0} aria-label="Projects" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-[30px] gap-y-12">
+          {visible.map((project) => {
+            const extra = project.stack.length - CARD_STACK;
+            return (
+              <AnimatedItem as="li" key={project.slug}>
+                <Link href={`/work/${project.slug}`} className="group flex flex-col gap-3 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-primary">
+                  <span className="relative block w-full aspect-[4/3] mb-2 rounded-2xl overflow-hidden bg-[#232329] ring-1 ring-white/5 transition-shadow duration-200 group-hover:ring-accent/60">
+                    <Image src={galleryOf(project)[0].image} fill sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw" className="object-cover motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out motion-safe:group-hover:scale-[1.03]" alt="" />
+                  </span>
+                  <div className="flex items-baseline justify-between gap-4">
+                    <h2 className="text-2xl font-bold leading-tight capitalize transition-colors duration-200 group-hover:text-accent">{project.title}</h2>
+                    <span aria-hidden="true" className="text-3xl leading-none font-extrabold text-transparent text-outline">
+                      {String(projects.indexOf(project) + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <p className="text-white/60 capitalize leading-snug">{project.category} project</p>
+                  <p className="text-sm text-accent leading-snug">
+                    {project.stack.slice(0, CARD_STACK).map((s) => s.name).join(" · ")}
+                    {extra > 0 && <span className="text-white/40"> +{extra}</span>}
+                  </p>
+                </Link>
+              </AnimatedItem>
+            );
+          })}
+        </AnimatedSection>
       </div>
     </motion.section>
-  )
-}
+  );
+};
 
-export default Work
+export default Work;

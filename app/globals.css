@@ -3,6 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  /* Header sizes, shared by the header and anything that has to clear it once it sticks.
+     Condensed, the header slides up by --header-pad, keeping half the padding above and below. */
+  :root {
+    --header-pad: 2rem;
+    --header-row: 3rem;
+    --header-condensed: calc(var(--header-row) + var(--header-pad));
+  }
+  @screen xl {
+    :root {
+      --header-pad: 3rem;
+    }
+  }
+
+  /* In-page jumps (résumé menu) land below the sticky header */
+  html {
+    scroll-padding-top: var(--header-condensed);
+  }
+
   body {
     @apply font-primary bg-primary text-white leading-loose;
   }
@@ -10,18 +28,22 @@
   .h1 {
     @apply text-[48px] font-semibold xl:text-[80px] leading-[1.1];
   }
-  .h2 {
-    @apply text-[36px] font-semibold xl:text-[48px] leading-[1.1];
-  }
-  .h3 {
-    @apply text-[20px] font-semibold xl:text-[24px] leading-[1.1];
-  }
   
   .text-outline {
     -webkit-text-stroke: 1px #ffffff;
   }
-  
-  .text-outline-hover {
-    -webkit-text-stroke: 1px #CD5C5C;
+}
+
+/* Swiper animates slides with an inline transition-duration; drop it for reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .swiper-wrapper {
+    transition-duration: 0ms !important;
+  }
+}
+
+/* Smooth jumps to in-page sections (résumé menu) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
