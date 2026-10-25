@@ -229,7 +229,7 @@ test("resume is one page with a section menu, and skills are listed by name", as
   for (const name of ["Experience", "Education", "Skills", "About me"]) {
     await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
   }
-  await expect(menu.getByRole("link", { name: "Experience" })).toHaveAttribute("aria-current", "location");
+  await expect(menu.getByRole("link", { name: "About me" })).toHaveAttribute("aria-current", "location");
 
   await menu.getByRole("link", { name: "Skills" }).click();
   await expect(page).toHaveURL(/#skills$/);
@@ -238,6 +238,9 @@ test("resume is one page with a section menu, and skills are listed by name", as
   for (const skill of ["TypeScript", "Vue", "Playwright", "Laravel Blade"]) {
     await expect(skills.getByRole("listitem").filter({ hasText: new RegExp(`^${skill}$`) })).toBeVisible();
   }
+
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect(menu.getByRole("link", { name: "Skills" })).toHaveAttribute("aria-current", "location");
 
   await expect(page.getByText("Freelance")).toHaveCount(0);
   await page.getByRole("link", { name: /See these projects/ }).click();
@@ -258,7 +261,7 @@ test("header sticks and condenses on scroll, and résumé jumps land below it", 
   const visible = bar.y + bar.height;
   expect(visible).toBeGreaterThan(0);
   expect(visible).toBeLessThan(full.height);
-  await expect(header.getByRole("link", { name: "Hire me" })).toBeInViewport();
+  await expect(header.getByRole("link", { name: "Contact" })).toBeInViewport();
 
   // A menu jump puts the section heading below the bar, not under it
   await page.getByRole("navigation", { name: "Resume sections" }).getByRole("link", { name: "Education" }).click();
